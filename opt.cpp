@@ -1,104 +1,232 @@
 #include <iostream>
-#include <fstream>
 #include <vector>
-#include <cmath>
-#include <limits>
-#include <algorithm>
+#include <string>
+#include <fstream>
 #include <filesystem>
+#include <chrono>
+#include <cmath>
+#include <algorithm>
 
-using namespace std;
 namespace fs = std::filesystem;
 
+// Structure to hold a point's coordinates
 struct Point {
     double x, y;
 };
 
-double euclideanDistance(const Point& a, const Point& b) {
-    return sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y));
+// Compute Euclidean distance between two points
+inline double computeDistance(const Point &p1, const Point &p2) {
+    double dx = p1.x - p2.x;
+    double dy = p1.y - p2.y;
+    return std::sqrt(dx * dx + dy * dy);
 }
 
-double calculateTotalDistance(const vector<Point>& points, const vector<int>& path) {
-    double totalDistance = 0.0;
-    for (size_t i = 0; i < path.size() - 1; ++i) {
-        totalDistance += euclideanDistance(points[path[i]], points[path[i + 1]]);
+// Calculate the total length of a tour (closed or open)
+double calculateTourLength(const std::vector<int> &tour,
+                           const std::vector<Point> &points,
+                           bool closeCycle)
+{
+    double total = 0.0;
+    int sz = static_cast<int>(tour.size());
+    for (int i = 0; i + 1 < sz; ++i) {
+        total += computeDistance(points[tour[i]], points[tour[i + 1]]);
     }
-    totalDistance += euclideanDistance(points[path.back()], points[path.front()]); // Closing the cycle
-    return totalDistance;
+    if (closeCycle && sz > 1) {
+        total += computeDistance(points[tour.back()], points[tour.front()]);
+    }
+    return total;
 }
 
-void twoOptSwap(vector<int>& path, int i, int k) {
-    reverse(path.begin() + i, path.begin() + k + 1);
-}
+// One 2-opt iteration: try all (i, j) pairs with reversal
+bool improveTwoOpt(std::vector<int> &tour,
+                   const std::vector<Point> &pts,
+                   bool closeCycle)
+{
+    int n = static_cast<int>(tour.size());
+    double bestLen = calculateTourLength(tour, pts, closeCycle);
+    bool foundBetter = false;
 
-bool twoOpt(vector<Point>& points, vector<int>& path) {
-    int n = path.size();
-    bool improved = false;
-    double bestDistance = calculateTotalDistance(points, path);
-
-    for (int i = 1; i < n - 1; ++i) {
-        for (int k = i + 1; k < n; ++k) {
-            twoOptSwap(path, i, k);
-            double newDistance = calculateTotalDistance(points, path);
-            if (newDistance < bestDistance) {
-                bestDistance = newDistance;
-                improved = true;
+    for (int i = 1; i < n - 2; ++i) {
+        for (int j = i + 1; j < n - (closeCycle ? 0 : 1); ++j) {
+            std::reverse(tour.begin() + i, tour.begin() + j);
+            double newLen = calculateTourLength(tour, pts, closeCycle);
+            if (newLen < bestLen) {
+                bestLen = newLen;
+                foundBetter = true;
             } else {
-                twoOptSwap(path, i, k); // Revert the swap
+                std::reverse(tour.begin() + i, tour.begin() + j);  // revert
             }
         }
     }
-    return improved;
+    return foundBetter;
 }
 
-void solveTSP(const string& filename, std::ofstream& outFile) {
-    ifstream inputFile(filename);
-    if (!inputFile.is_open()) {
-        cerr << "Error opening file: " << filename << endl;
-        return;
+// Run 2-opt until no improvement; return (length, elapsed_ms)
+std::pair<double, long long> performTwoOpt(std::vector<int> &tour,
+                                           const std::vector<Point> &pts,
+                                           bool closeCycle)
+{
+    auto t0 = std::chrono::high_resolution_clock::now();
+    while (improveTwoOpt(tour, pts, closeCycle)) { }
+    auto t1 = std::chrono::high_resolution_clock::now();
+    long long elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count();
+    double length = calculateTourLength(tour, pts, closeCycle);
+    return { length, elapsed };
+}
+
+// One 3-opt iteration: try (i, j, k) triples with several reversals
+bool improveThreeOpt(std::vector<int> &tour,
+                     const std::vector<Point> &pts,
+                     bool closeCycle)
+{
+    int n = static_cast<int>(tour.size());
+    double bestLen = calculateTourLength(tour, pts, closeCycle);
+
+    for (int i = 0; i < n - 2; ++i) {
+        for (int j = i + 1; j < n - 1; ++j) {
+            for (int k = j + 1; k < n; ++k) {
+                std::vector<int> candidate = tour;
+                double localBest = bestLen;
+                std::vector<int> bestCandidate = tour;
+
+                auto tryModification = [&](int mode) {
+                    candidate = tour;
+                    if (mode == 0) {
+                        std::reverse(candidate.begin() + (i + 1), candidate.begin() + (j + 1));
+                    } else if (mode == 1) {
+                        std::reverse(candidate.begin() + (j + 1), candidate.begin() + (k + 1));
+                    } else if (mode == 2) {
+                        std::reverse(candidate.begin() + (i + 1), candidate.begin() + (j + 1));
+                        std::reverse(candidate.begin() + (j + 1), candidate.begin() + (k + 1));
+                    } else if (mode == 3) {
+                        std::reverse(candidate.begin() + (i + 1), candidate.begin() + (k + 1));
+                    } else if (mode == 4) {
+                        std::reverse(candidate.begin() + (i + 1), candidate.begin() + (j + 1));
+                        std::reverse(candidate.begin() + (i + 1), candidate.begin() + (k + 1));
+                    } else if (mode == 5) {
+                        std::reverse(candidate.begin() + (j + 1), candidate.begin() + (k + 1));
+                        std::reverse(candidate.begin() + (i + 1), candidate.begin() + (k + 1));
+                    } else if (mode == 6) {
+                        std::reverse(candidate.begin() + (i + 1), candidate.begin() + (j + 1));
+                        std::reverse(candidate.begin() + (j + 1), candidate.begin() + (k + 1));
+                        std::reverse(candidate.begin() + (i + 1), candidate.begin() + (k + 1));
+                    }
+
+                    double len = calculateTourLength(candidate, pts, closeCycle);
+                    if (len < localBest) {
+                        localBest = len;
+                        bestCandidate = candidate;
+                    }
+                };
+
+                for (int mode = 0; mode < 7; ++mode) {
+                    tryModification(mode);
+                }
+
+                if (localBest < bestLen) {
+                    tour = bestCandidate;
+                    return true;
+                }
+            }
+        }
     }
+    return false;
+}
 
-    int n;
-    inputFile >> n;
-    vector<Point> points(n);
-    for (int i = 0; i < n; ++i) {
-        inputFile >> points[i].x >> points[i].y;
-    }
-    inputFile.close();
-
-    vector<int> path(n);
-    for (int i = 0; i < n; ++i) {
-        path[i] = i;
-    }
-
-    bool improved = true;
-    while (improved) {
-        improved = twoOpt(points, path);
-    }
-
-
-    //std::ofstream outFile("output.txt");
-
-
-    double totalDistance = calculateTotalDistance(points, path);
-    cout << totalDistance << " 0" << endl;
-    outFile << totalDistance << " 0" <<endl;
-    for (int i = 0; i < n; ++i) {
-        cout << path[i] << " ";
-        outFile << path[i] << " ";
-    }
-    cout << endl;
-    outFile << std::endl;
-    //outFile.close();
+// Run 3-opt until no improvement; return (length, elapsed_ms)
+std::pair<double, long long> performThreeOpt(std::vector<int> &tour,
+                                             const std::vector<Point> &pts,
+                                             bool closeCycle)
+{
+    auto t0 = std::chrono::high_resolution_clock::now();
+    while (improveThreeOpt(tour, pts, closeCycle)) { }
+    auto t1 = std::chrono::high_resolution_clock::now();
+    long long elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count();
+    double length = calculateTourLength(tour, pts, closeCycle);
+    return { length, elapsed };
 }
 
 int main() {
-    std::ofstream outFile("output.txt");
-    string dataPath = "data";
-    for (const auto& entry : fs::directory_iterator(dataPath)) {
-        if (entry.is_regular_file()) {
-            solveTSP(entry.path().string(), outFile);
-        }
+    const std::string dataDir = "data";
+    const std::string outputCsv = "results_2opt_3opt.csv";
+
+    // Print the current working directory and which folder we try to open
+    std::cout << "Current working directory: " << fs::current_path() << std::endl;
+    std::cout << "Attempting to open directory: " << dataDir << std::endl;
+
+    if (!fs::exists(dataDir) || !fs::is_directory(dataDir)) {
+        std::cerr << "Error: cannot find or open folder \"" << dataDir << "\"" << std::endl;
+        return 1;
     }
-    outFile.close();
+
+    std::ofstream csvFile(outputCsv, std::ios::out | std::ios::trunc);
+    if (!csvFile.is_open()) {
+        std::cerr << "Error: cannot open \"" << outputCsv << "\" for writing" << std::endl;
+        return 1;
+    }
+
+    // Write CSV header
+    csvFile << "filename,dist_2opt,time_2opt_ms,dist_3opt,time_3opt_ms\n";
+
+    std::cout << "Starting to iterate through files in \"" << dataDir << "\"" << std::endl;
+    for (const auto &entry : fs::directory_iterator(dataDir)) {
+        if (!entry.is_regular_file()) {
+            std::cout << "  -> Skipping " << entry.path().filename().string()
+                      << " (not a regular file)" << std::endl;
+            continue;
+        }
+
+        std::string filename = entry.path().string();
+        std::cout << "Found file: " << entry.path().filename().string() << std::endl;
+
+        std::ifstream inFile(filename);
+        if (!inFile.is_open()) {
+            std::cerr << "  Error: cannot open file: " << filename << std::endl;
+            continue;
+        }
+
+        int nPoints;
+        inFile >> nPoints;
+        std::cout << "  Read number of points = " << nPoints << std::endl;
+        if (nPoints <= 0) {
+            std::cout << "  -> Skipping file, invalid number of points" << std::endl;
+            inFile.close();
+            continue;
+        }
+
+        std::vector<Point> allPoints(nPoints);
+        for (int i = 0; i < nPoints; ++i) {
+            double xx, yy;
+            inFile >> xx >> yy;
+            allPoints[i] = {xx, yy};
+        }
+        inFile.close();
+
+        // Initialize the tour as 0,1,2,...,nPoints-1
+        std::vector<int> tour(nPoints);
+        for (int i = 0; i < nPoints; ++i) {
+            tour[i] = i;
+        }
+
+        bool isClosed = true; // Treat as a closed tour
+
+        // Run 2-opt
+        auto [length2, time2] = performTwoOpt(tour, allPoints, isClosed);
+        std::cout << "  2-opt result: length=" << length2 << ", time=" << time2 << " ms" << std::endl;
+
+        // Run 3-opt on the improved tour
+        auto [length3, time3] = performThreeOpt(tour, allPoints, isClosed);
+        std::cout << "  3-opt result: length=" << length3 << ", time=" << time3 << " ms" << std::endl;
+
+        // Write results to CSV
+        csvFile << fs::path(filename).filename().string() << ","
+                << std::fixed << std::setprecision(6) << length2 << ","
+                << time2 << ","
+                << length3 << ","
+                << time3 << "\n";
+    }
+
+    csvFile.close();
+    std::cout << "Done. Results have been saved to \"" << outputCsv << "\"" << std::endl;
     return 0;
 }
