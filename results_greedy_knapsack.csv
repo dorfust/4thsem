@@ -1,0 +1,180 @@
+Filename: ks_10000_0 Approach: ratio
+ Total Value: 1099870 Total Weight: 1000000 Time Taken: 9 ms
+ Values Chosen: 92264 76140 109027 177323 69271 179749 61650 108657 181206 41755 327 437 706 244 945 87 74 8
+ Weights Chosen: 83877 69221 99123 161215 62979 163423 56051 98789 164754 37964 298 399 649 225 873 81 70 9
+
+Filename: ks_10000_0 Approach: value
+ Total Value: 1094968 Total Weight: 999989 Time Taken: 3 ms
+ Values Chosen: 219380 218870 218215 217655 217651 3189 8
+ Weights Chosen: 199630 199511 199151 199062 199549 3077 9
+
+Filename: ks_1000_0 Approach: ratio
+ Total Value: 109869 Total Weight: 99972 Time Taken: 0 ms
+ Values Chosen: 3439 13710 15347 6646 14781 6064 2295 12721 9142 11450 5247 5739 303 438 1531 253 256 506 1
+ Weights Chosen: 3127 12469 13958 6045 13446 5517 2088 11574 8318 10424 4777 5227 276 399 1395 231 234 466 1
+
+Filename: ks_1000_0 Approach: value
+ Total Value: 107768 Total Weight: 99991 Time Taken: 0 ms
+ Values Chosen: 21495 21016 20988 20948 20925 2395 1
+ Weights Chosen: 19995 19978 19301 19187 19132 2397 1
+
+Filename: ks_100_0 Approach: ratio
+ Total Value: 90000 Total Weight: 90001 Time Taken: 0 ms
+ Values Chosen: 90000
+ Weights Chosen: 90001
+
+Filename: ks_100_0 Approach: value
+ Total Value: 90000 Total Weight: 90001 Time Taken: 0 ms
+ Values Chosen: 90000
+ Weights Chosen: 90001
+
+Filename: ks_100_1 Approach: ratio
+ Total Value: 1333635 Total Weight: 3190770 Time Taken: 0 ms
+ Values Chosen: 565204 565204 147380 47728 7150 969 0
+ Weights Chosen: 1351508 1351508 352660 114556 17400 2638 500
+
+Filename: ks_100_1 Approach: value
+ Total Value: 1333671 Total Weight: 3190742 Time Taken: 0 ms
+ Values Chosen: 565204 565204 174684 21004 7463 112
+ Weights Chosen: 1351508 1351508 418068 50708 18226 724
+
+Filename: ks_100_2 Approach: ratio
+ Total Value: 10892 Total Weight: 9999 Time Taken: 0 ms
+ Values Chosen: 1970 1842 882 1652 480 1295 2114 43 473 141
+ Weights Chosen: 1794 1680 806 1511 440 1192 1958 40 442 136
+
+Filename: ks_100_2 Approach: value
+ Total Value: 10547 Total Weight: 9999 Time Taken: 0 ms
+ Values Chosen: 2114 2055 2046 1970 1944 362 56
+ Weights Chosen: 1958 1960 1902 1794 1952 378 55
+
+Filename: ks_19_0 Approach: ratio
+ Total Value: 11981 Total Weight: 30162 Time Taken: 0 ms
+ Values Chosen: 3878 4136 2945 1022
+ Weights Chosen: 9656 10372 7390 2744
+
+Filename: ks_19_0 Approach: value
+ Total Value: 12066 Total Weight: 30532 Time Taken: 0 ms
+ Values Chosen: 4136 3878 2945 1107
+ Weights Chosen: 10372 9656 7390 3114
+
+Filename: ks_200_0 Approach: ratio
+ Total Value: 100062 Total Weight: 99781 Time Taken: 0 ms
+ Values Chosen: 34698 34446 30918
+ Weights Chosen: 34599 34348 30834
+
+Filename: ks_200_0 Approach: value
+ Total Value: 90001 Total Weight: 90000 Time Taken: 0 ms
+ Values Chosen: 90001
+ Weights Chosen: 90000
+
+Filename: ks_200_1 Approach: ratio
+ Total Value: 1103442 Total Weight: 2640084 Time Taken: 0 ms
+ Values Chosen: 387480 395124 170844 132868 16812 314
+ Weights Chosen: 926660 944948 408788 318036 40524 1128
+
+Filename: ks_200_1 Approach: value
+ Total Value: 1103484 Total Weight: 2639868 Time Taken: 0 ms
+ Values Chosen: 395124 387480 226844 85864 8172
+ Weights Chosen: 944948 926660 542788 205628 19844
+
+Filename: ks_300_0 Approach: ratio
+ Total Value: 1688584 Total Weight: 4040068 Time Taken: 0 ms
+ Values Chosen: 387480 395124 236380 170844 226844 166516 83452 19916 2028
+ Weights Chosen: 926660 944948 565460 408788 542788 398532 199804 47932 5156
+
+Filename: ks_300_0 Approach: value
+ Total Value: 1688432 Total Weight: 4039664 Time Taken: 0 ms
+ Values Chosen: 395124 387480 236380 226844 170844 166516 104036 1208
+ Weights Chosen: 944948 926660 565460 542788 408788 398532 249172 3316
+
+Filename: ks_30_0 Approach: ratio
+ Total Value: 90000 Total Weight: 90001 Time Taken: 0 ms
+ Values Chosen: 90000
+ Weights Chosen: 90001
+
+Filename: ks_30_0 Approach: value
+ Total Value: 90000 Total Weight: 90001 Time Taken: 0 ms
+ Values Chosen: 90000
+ Weights Chosen: 90001
+
+Filename: ks_400_0 Approach: ratio
+ Total Value: 3966813 Total Weight: 9485926 Time Taken: 0 ms
+ Values Chosen: 1365820 1445900 492496 501060 151320 10196 21
+ Weights Chosen: 3265540 3457100 1177692 1198220 362140 24692 542
+
+Filename: ks_400_0 Approach: value
+ Total Value: 3966825 Total Weight: 9485850 Time Taken: 0 ms
+ Values Chosen: 1445900 1417728 562272 501060 39844 21
+ Weights Chosen: 3457100 3389756 1344644 1198220 95588 542
+
+Filename: ks_40_0 Approach: ratio
+ Total Value: 96474 Total Weight: 96362 Time Taken: 0 ms
+ Values Chosen: 14538 14286 14034 13782 13530 13278 13026
+ Weights Chosen: 14519 14268 14017 13766 13515 13264 13013
+
+Filename: ks_40_0 Approach: value
+ Total Value: 90001 Total Weight: 90000 Time Taken: 0 ms
+ Values Chosen: 90001
+ Weights Chosen: 90000
+
+Filename: ks_45_0 Approach: ratio
+ Total Value: 23974 Total Weight: 58148 Time Taken: 0 ms
+ Values Chosen: 16553 7421
+ Weights Chosen: 40006 18142
+
+Filename: ks_45_0 Approach: value
+ Total Value: 23974 Total Weight: 58148 Time Taken: 0 ms
+ Values Chosen: 16553 7421
+ Weights Chosen: 40006 18142
+
+Filename: ks_4_0 Approach: ratio
+ Total Value: 18 Total Weight: 9 Time Taken: 0 ms
+ Values Chosen: 10 8
+ Weights Chosen: 5 4
+
+Filename: ks_4_0 Approach: value
+ Total Value: 19 Total Weight: 11 Time Taken: 0 ms
+ Values Chosen: 15 4
+ Weights Chosen: 8 3
+
+Filename: ks_500_0 Approach: ratio
+ Total Value: 54891 Total Weight: 49972 Time Taken: 0 ms
+ Values Chosen: 1398 10727 7563 9329 5698 8759 5652 1121 4130 247 255 12 0
+ Weights Chosen: 1271 9755 6878 8485 5186 7973 5146 1021 3764 228 252 12 1
+
+Filename: ks_500_0 Approach: value
+ Total Value: 54408 Total Weight: 49998 Time Taken: 0 ms
+ Values Chosen: 10738 10727 10619 10584 10517 1223 0
+ Weights Chosen: 9786 9755 9845 9793 9695 1123 1
+
+Filename: ks_50_0 Approach: ratio
+ Total Value: 141956 Total Weight: 341012 Time Taken: 0 ms
+ Values Chosen: 96601 29688 13269 1906 492
+ Weights Chosen: 231302 71276 32038 4912 1484
+
+Filename: ks_50_0 Approach: value
+ Total Value: 142156 Total Weight: 341012 Time Taken: 0 ms
+ Values Chosen: 96601 45136 419
+ Weights Chosen: 231302 108372 1338
+
+Filename: ks_50_1 Approach: ratio
+ Total Value: 5326 Total Weight: 4980 Time Taken: 0 ms
+ Values Chosen: 838 649 180 958 196 259 126 258 757 995 23 61 26
+ Weights Chosen: 767 595 167 889 182 242 119 244 718 945 22 62 28
+
+Filename: ks_50_1 Approach: value
+ Total Value: 5113 Total Weight: 4994 Time Taken: 0 ms
+ Values Chosen: 995 961 958 930 927 342
+ Weights Chosen: 945 938 889 948 925 349
+
+Filename: ks_60_0 Approach: ratio
+ Total Value: 90000 Total Weight: 90001 Time Taken: 0 ms
+ Values Chosen: 90000
+ Weights Chosen: 90001
+
+Filename: ks_60_0 Approach: value
+ Total Value: 90000 Total Weight: 90001 Time Taken: 0 ms
+ Values Chosen: 90000
+ Weights Chosen: 90001
+
